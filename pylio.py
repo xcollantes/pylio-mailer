@@ -4,7 +4,7 @@
 # author: Xavier Collantes (xaviercollantes.me)
 # date: November 7, 2018
 # file: pylio.py
-# purpose: Send SMS text messages via email. 
+# purpose: Send automated emails. Send SMS text messages via email. 
 #################################################
 
 from googleapiclient.discovery import build
@@ -13,7 +13,7 @@ from httplib2 import Http
 
 
 SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
-print(file)
+
 def main():
     store = file.Storage('token.json')
     cred = store.get()
