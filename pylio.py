@@ -12,7 +12,7 @@ from oauth2client import file, client, tools
 from httplib2 import Http
 
 
-SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
+SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 
 def main():
     store = file.Storage('token.json')
