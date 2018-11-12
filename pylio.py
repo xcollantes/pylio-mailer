@@ -18,7 +18,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import mimetypes
 import os
-import time
+import arrow
 from apiclient import errors
 
 
@@ -35,10 +35,10 @@ def main():
     
     # Call to Gmail API
     sender = "jackboominbusiness@gmail.com"
-    to = "xcollantes@zagmail.gonzaga.edu"
+    to = "2064223441@tmomail.net"
     subject = ""
     user = "me"
-    msg = "Hello World! this is Xavier"
+    msg = "Hello World! this is Xavier %s" % arrow.utcnow().to('US/Pacific').format('d MMM YYYY H:M ZZZ')
 
     #email = "Hello World! this is Xavier (SendMsg)"
     email = CreateMsg(sender, to, subject, msg)
