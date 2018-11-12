@@ -18,6 +18,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import mimetypes
 import os
+import time
 from apiclient import errors
 
 
@@ -39,8 +40,8 @@ def main():
     user = "me"
     msg = "Hello World! this is Xavier"
 
-    email = "Hello World! this is Xavier (SendMsg)"
-    #email = CreateMsg(sender, to, subject, msg)
+    #email = "Hello World! this is Xavier (SendMsg)"
+    email = CreateMsg(sender, to, subject, msg)
     
     sentMsg = SendMsg(service, user, email)
     print(sentMsg)
@@ -82,12 +83,25 @@ def CreateMsg(sender, to, subject, message_text):
     message['to'] = to
     message['from'] = sender
     message['subject'] = subject
-    print("**************\n",message.as_string())  # DEBUG
+    print("************** PAYLOAD *******************\n",message,"\n********************* /PAYLOAD *****************")  # DEBUG
 
-    msg_b = base64.urlsafe_b64encode(message.as_string())
-    #print(msg_b)
-    return {'raw': base64.urlsafe_b64encode(msg_b)}
-    #return {'raw': base64.urlsafe_b64encode(byte(message.as_string(), encoding='ascii'))}
+    msg_b = base64.urlsafe_b64encode(bytes(message.as_string(), 'ascii'))
+    print("AS BITSTRING: ",type(msg_b))  #DEBUG
+    print("AS STRING BITSTRING",type(str(msg_b)))  #DEBUG
+    return {'raw': byteStrip(msg_b)}
+    #return {'raw': base64.urlsafe_b64encode(message.as_string())}  #DEBUG
+
+
+
+"""
+  Turns bytecode into string payload.
+
+  Args: byteStr: Bytecode to be converted to string. 
+
+  Returns: String type of encoded bytecode. 
+"""
+def byteStrip(byteStr):
+    return str(byteStr)[2:-1]
 
 
 
