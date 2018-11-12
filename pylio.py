@@ -34,7 +34,7 @@ def main():
     service = build('gmail', 'v1', http=creds.authorize(Http()))
     
     # Call to Gmail API
-    sender = "jackboominbusiness@gmail.com"
+    sender = "jarvis.msg@gmail.com"
     to = "2064223441@tmomail.net"
     subject = ""
     user = "me"
