@@ -16,8 +16,8 @@ SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
 
 def main():
     store = file.Storage('token.json')
-    cred = store.get()
-    if not cred or cred.invalid:
+    creds = store.get()
+    if not creds or creds.invalid:
         flow = client.flow_from_clientsecrets('../mailer-cred/credentials.json', SCOPES)
         creds = tools.run_flow(flow, store)
         
