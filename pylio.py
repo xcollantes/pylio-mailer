@@ -10,6 +10,15 @@
 from googleapiclient.discovery import build
 from oauth2client import file, client, tools
 from httplib2 import Http
+import base64
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import mimetypes
+import os
+from apiclient import errors
 
 
 SCOPES = 'https://www.googleapis.com/auth/gmail.send'
@@ -24,23 +33,59 @@ def main():
     service = build('gmail', 'v1', http=creds.authorize(Http()))
     
     # Call to Gmail API
-    results = service.users().labels().list(userId='me').execute()
-    labels = results.get('labels', [])
+    sender = "jackboominbusiness@gmail.com"
+    to = "xcollantes@zagmail.gonzaga.edu"
+    subject = ""
+    user = "me"
+    msg = "Hello World! this is Xavier"
 
-    if not labels:
-        print('Labels not found.')
-    else:
-        print('Labels:')
-        for label in labels:
-            print(label)
+    SendMsg(service, user, CreateMsg(sender, to, subject, msg))
 
-def test_func():
-    print("TYPE: ", type(file.Storage('token.json')))
-    print(file.Storage('token.json'))
+
+
+"""
+  Sends email via Gmail API.  
+
+  Args:
+    service: Specify settings from Gmail.  
+    user: Email sender email address. Can use special value 'me'.
+    message: Body of email.
+
+  Returns: Message sent. 
+"""
+def SendMsg(service, user, message):
+    try:
+        message = (service.users().messages().send(userId=user, body=message).execute())
+        return message
+
+    except errors.HttpsError as e:
+        print("ERROR: %s", e)
+
+
+
+"""
+  Creates email message. 
+
+  Args:
+    sender: Email address of sender.
+    to: Email address of receipient.
+    subject: The email subject line.
+    message_text: Body of the email.
+
+  Returns: Object with base64url encoded email object.
+"""
+def CreateMsg(sender, to, subject, message_text):
+    message = MIMEText(message_text)
+    message['to'] = to
+    message['from'] = sender
+    message['subject'] = subject
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+
+
 
 if __name__=="__main__":
     main()
-    #test_func()
+
 
 
 # <AMDG/>
