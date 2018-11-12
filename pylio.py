@@ -25,8 +25,8 @@ SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 
 def main():
     store = file.Storage('token.json')
-    cred = store.get()
-    if not cred or cred.invalid:
+    creds = store.get()
+    if not creds or creds.invalid:
         flow = client.flow_from_clientsecrets('../mailer-cred/credentials.json', SCOPES)
         creds = tools.run_flow(flow, store)
         
@@ -39,8 +39,11 @@ def main():
     user = "me"
     msg = "Hello World! this is Xavier"
 
-    SendMsg(service, user, CreateMsg(sender, to, subject, msg))
-
+    email = "Hello World! this is Xavier (SendMsg)"
+    #email = CreateMsg(sender, to, subject, msg)
+    
+    sentMsg = SendMsg(service, user, email)
+    print(sentMsg)
 
 
 """
@@ -58,8 +61,8 @@ def SendMsg(service, user, message):
         message = (service.users().messages().send(userId=user, body=message).execute())
         return message
 
-    except errors.HttpsError as e:
-        print("ERROR: %s", e)
+    except errors.HttpError as e:
+        print("ERROR: %s" % e)
 
 
 
@@ -79,7 +82,12 @@ def CreateMsg(sender, to, subject, message_text):
     message['to'] = to
     message['from'] = sender
     message['subject'] = subject
-    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+    print("**************\n",message.as_string())  # DEBUG
+
+    msg_b = base64.urlsafe_b64encode(message.as_string())
+    #print(msg_b)
+    return {'raw': base64.urlsafe_b64encode(msg_b)}
+    #return {'raw': base64.urlsafe_b64encode(byte(message.as_string(), encoding='ascii'))}
 
 
 
