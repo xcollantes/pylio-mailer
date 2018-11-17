@@ -35,7 +35,8 @@ def main():
     
     # Call to Gmail API
     sender = "jarvis.msg@gmail.com"
-    to = "2064223441@tmomail.net"
+    #to = "2064223441@tmomail.net"
+    to =  "6507137396@tmomail.net"
     subject = ""
     user = "me"
     msg = "Hello World! this is Xavier %s" % arrow.utcnow().to('US/Pacific').format('d MMM YYYY H:M ZZZ')
