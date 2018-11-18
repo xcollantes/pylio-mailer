@@ -26,6 +26,9 @@ from apiclient import errors
 SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 
 def main():
+    argParser = argparse.ArgumentParser(description="Send SMS text messages.")
+    
+
     store = file.Storage('token.json')
     creds = store.get()
     if not creds or creds.invalid:
@@ -35,7 +38,7 @@ def main():
     service = build('gmail', 'v1', http=creds.authorize(Http()))
     
     # Call to Gmail API
-    sender = "jarvis.msg@gmail.com"
+    #sender = "jarvis.msg@gmail.com"  # Try to remove sender email
     to = "2064223441@tmomail.net"
     subject = ""
     user = "me"
@@ -98,17 +101,41 @@ def CreateMsg(sender, to, subject, message_text):
   Turns bytecode into string payload.
 
   Args: byteStr: Bytecode to be converted to string. 
-
   Returns: String type of encoded bytecode. 
 """
 def byteStrip(byteStr):
     return str(byteStr)[2:-1]
 
+def test_parse():
 
+    p = argparse.ArgumentParser(description="This is my test parser.")
+    p.add_argument('--echo', '-e', action='store', metavar='output', default='no string', help='print out given arguments')
+    p.add_argument('-x', '--multiply', action='store', metavar='number', default=0, type=int, help='multiplies given by 2')
+
+    a = p.parse_args()
+    print(a)
+    m = a.multiply * 2
+    o = a.echo
+
+    
+    print("ASSIGNMENT of E: ", a.echo)
+    print("TYPE of E: ", type(a.echo))
+
+    print('\n')
+    print("ASSIGNMENT of X: ", a.multiply)
+    print("TYPE of X: ", type(a.multiply))
+
+    print("************** OUTPUTS *********************")
+
+    if o != None:
+        print("OUTPUT: %s" % o)
+
+    if m != None:
+        print(a.multiply, " x 2 = ", m)
 
 if __name__=="__main__":
-    main()
-
+    #main()
+    test_parse()
 
 
 # <AMDG/>
