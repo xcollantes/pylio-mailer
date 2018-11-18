@@ -1,0 +1,10 @@
+---
+# PylioMail settings
+sender: me
+credentials: credentials.json
+send_to: xcollantes@zagmail.gonzaga.edu
+subject: Message
+message: This is from the YAML file.
+
+
+...

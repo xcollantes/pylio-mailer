@@ -18,23 +18,21 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import mimetypes
 import os
-import arrow
 import argparse
-import yaml
 from apiclient import errors
 
 
 class PylioMail:
     SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 
-    def __init__(self, to, sender, message, credFile, subject=None, configFile=None):
+    def __init__(self, to, message, credFile, subject=None, sender='me', configFile=None):
         self.to = to
         self.sender = sender
         self.subject = subject
         self.message = message
         self.configFile = configFile
         self.credFile = credFile
-        self.user = 'me'
+        self.user = sender
 
 
     """
